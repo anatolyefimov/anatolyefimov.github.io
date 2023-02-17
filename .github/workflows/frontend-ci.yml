@@ -24,7 +24,7 @@ jobs:
       - name: Linting js
         run: npm run lint -- --max-warnings=0
 
-      name: Deploy
+      - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: dist
