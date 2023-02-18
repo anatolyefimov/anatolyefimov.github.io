@@ -1,12 +1,12 @@
 CREATE TABLE graph
 (
-    id   bigserial,
+    id   bigserial primary key,
     name text not null
 );
 
 CREATE TABLE node
 (
-    id            bigserial,
+    id            bigserial primary key,
     internal_id   bigint not null,
     name          text   not null,
     graph_id      bigint not null,

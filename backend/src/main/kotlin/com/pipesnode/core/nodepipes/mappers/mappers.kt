@@ -15,42 +15,48 @@ fun GraphResource.map(): Graph {
     val startNodeRes = nodes.single { it.positionType == NodePositionType.START }
     fillNodesAndPutToMap(resource, startNodeRes, internalIdToNodesResource, internalIdToFilledNodes)
 
-    return Graph().apply {
+    val graph = Graph().apply {
         this.id = resource.id
         this.name = resource.name
         this.nodes = internalIdToFilledNodes.map { entry -> entry.value }
     }
+    graph.nodes.forEach {
+        it.graph = graph
+    }
+    return graph
 }
 
 private fun fillNodesAndPutToMap(
     graph: GraphResource, nodeRes: NodeResource, internalIdToNodesResource: Map<Long, NodeResource>,
     internalIdToFilledNodes: MutableMap<Long, Node>
 ): Node {
-    val node = nodeRes.map(graph)
-    if (node.positionType == NodePositionType.TERMINAL) {
-        return node
-    }
-
-    internalIdToFilledNodes[node.internalId!!] = node.apply {
-        children = nodeRes.childrenInternalIds.map {
-            return internalIdToFilledNodes.getOrDefault(
-                it, fillNodesAndPutToMap(
-                    graph, internalIdToNodesResource.getValue(it),
-                    internalIdToNodesResource, internalIdToFilledNodes
+    val node = nodeRes.map()
+    return if (node.internalId in internalIdToFilledNodes) {
+        internalIdToFilledNodes[node.internalId!!]!!
+    } else if (node.positionType == NodePositionType.TERMINAL) {
+        internalIdToFilledNodes[node.internalId!!] = node
+        node
+    } else {
+        internalIdToFilledNodes[node.internalId!!] = node.apply {
+            children = nodeRes.childrenInternalIds.map {
+                internalIdToFilledNodes.getOrDefault(
+                    it, fillNodesAndPutToMap(
+                        graph, internalIdToNodesResource.getValue(it),
+                        internalIdToNodesResource, internalIdToFilledNodes
+                    )
                 )
-            )
+            }
         }
+        node
     }
-    return node
 }
 
-private fun NodeResource.map(graph: GraphResource): Node {
+private fun NodeResource.map(): Node {
     val node = this
     return Node().apply {
         id = node.id
         internalId = node.internalId
         name = node.name
-        graphId = graph.id
         positionType = node.positionType
     }
 }

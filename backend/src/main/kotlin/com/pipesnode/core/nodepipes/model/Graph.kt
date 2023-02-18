@@ -1,5 +1,6 @@
 package com.pipesnode.core.nodepipes.model
 
+import javax.persistence.CascadeType
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
@@ -15,7 +16,7 @@ class Graph {
 
     var name: String? = null
 
-    @OneToMany(mappedBy = "graph_id")
+    @OneToMany(mappedBy = "graph", cascade = [CascadeType.ALL])
     var nodes: List<Node> = listOf()
 
 }

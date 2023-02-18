@@ -22,7 +22,8 @@ class DbGraphService(
     }
 
     override fun save(graph: GraphResource): GraphResource {
-        return repo.save(graph.map()).map()
+        var entity = graph.map()
+        return repo.save(entity).map()
     }
 
 }
