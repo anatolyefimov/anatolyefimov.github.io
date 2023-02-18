@@ -3,7 +3,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/node-pipes
+    url: jdbc:postgresql://${db.host}:${db.port}/node-pipes
     username: postgres
     password: postgres
 springdoc:
@@ -11,3 +11,7 @@ springdoc:
   enable-native-support: true
   swagger-ui:
     use-root-path: true
+
+db:
+  host: ${DB_HOST:localhost}
+  port: ${DB_PORT:5432}

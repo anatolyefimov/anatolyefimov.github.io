@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController
 class GraphController {
 
     @GetMapping
-    fun getGraphs(pageable: Pageable): Page<GraphResource> {
+    fun getGraphs(): Page<GraphResource> {
         return PageImpl(
             listOf(
                 GraphResource(
