@@ -1,8 +1,8 @@
 package com.pipesnode.core.nodepipes.model
 
-import jakarta.persistence.Entity
-import jakarta.persistence.Id
-import jakarta.persistence.OneToOne
+import javax.persistence.Entity
+import javax.persistence.Id
+import javax.persistence.OneToOne
 
 @Entity
 class Graph {

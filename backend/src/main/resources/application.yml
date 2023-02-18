@@ -6,3 +6,8 @@ spring:
     url: jdbc:postgresql://localhost:5432/node-pipes
     username: postgres
     password: postgres
+springdoc:
+  version: '@springdoc.version@'
+  enable-native-support: true
+  swagger-ui:
+    use-root-path: true
