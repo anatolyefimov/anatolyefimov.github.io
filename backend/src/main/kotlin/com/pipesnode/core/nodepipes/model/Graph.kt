@@ -1,18 +1,21 @@
 package com.pipesnode.core.nodepipes.model
 
 import javax.persistence.Entity
+import javax.persistence.GeneratedValue
+import javax.persistence.GenerationType
 import javax.persistence.Id
-import javax.persistence.OneToOne
+import javax.persistence.OneToMany
 
 @Entity
 class Graph {
 
     @Id
-    val id: Long? = null
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    var id: Long? = null
 
-    val name: String? = null
+    var name: String? = null
 
-    @OneToOne
-    val startNode: Node? = null
+    @OneToMany(mappedBy = "graph_id")
+    var nodes: List<Node> = listOf()
 
 }

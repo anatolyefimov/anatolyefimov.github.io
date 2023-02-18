@@ -1,17 +1,34 @@
 package com.pipesnode.core.nodepipes.model
 
 import javax.persistence.Entity
+import javax.persistence.FetchType
+import javax.persistence.GeneratedValue
+import javax.persistence.GenerationType
 import javax.persistence.Id
+import javax.persistence.JoinColumn
+import javax.persistence.JoinTable
 import javax.persistence.ManyToMany
 
 @Entity
 class Node {
     @Id
-    val id: Long? = null
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    var id: Long? = null
 
-    val name: String? = null
+    var internalId: Long? = null
 
-    @ManyToMany
-    val childNodes: List<Node> = listOf()
+    var name: String? = null
+
+    var graphId: Long? = null
+
+    var positionType: NodePositionType? = null
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "node_child_node",
+        joinColumns = [JoinColumn(name = "node_id")],
+        inverseJoinColumns = [JoinColumn(name = "child_node_id")]
+    )
+    var children: List<Node> = listOf()
 
 }
