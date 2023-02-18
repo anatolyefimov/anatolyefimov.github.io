@@ -12,6 +12,10 @@ group = 'com.pipesnode.core'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
 
+tasks.named("bootJar") {
+	archiveClassifier.set("boot")
+	mainClass = 'com.pipesnode.core.nodepipes.ApplicationKt'
+}
 repositories {
 	mavenCentral()
 }

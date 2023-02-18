@@ -4,8 +4,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class NodePipesApplication
+class Application
 
 fun main(args: Array<String>) {
-	runApplication<NodePipesApplication>(*args)
+	runApplication<Application>(*args)
 }

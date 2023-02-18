@@ -4,5 +4,5 @@ data class GraphResource(
     val id: Long?,
     val name: String,
     val startNodeId: Long?,
-    val nodeList: List<Long>
+    val nodes: List<Long>
 )
