@@ -5,10 +5,12 @@ import { createBrowserRouter, Navigate, RouteObject } from 'react-router-dom';
 import App from '@/App';
 import GraphsList from '@/pages/GraphsList';
 
+const baseUrl = import.meta.env.BASE_URL;
+
 export const paths = {
-	index: '/',
-	graphs: '/graphs',
-	graphWithId: '/graphs/:id',
+	index: baseUrl,
+	graphs: `${baseUrl}graphs`,
+	graphWithId: `${baseUrl}graphs/:id`,
 };
 
 export const newItemId = 'new';
@@ -23,7 +25,7 @@ export const routes: RouteObject[] = [
 				element: <GraphsList />,
 			},
 
-			{ path: '/', element: <Navigate to={paths.graphs} /> },
+			{ path: paths.index, element: <Navigate to={paths.graphs} /> },
 		],
 	},
 	{ path: '*', element: <Navigate to={paths.graphs} /> },
