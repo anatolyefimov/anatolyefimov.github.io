@@ -3,3 +3,6 @@ pscp -i D:\work\keys\aws\awskeys.ppk D:\projectsHome\node-pipes\backend\build\li
 docker run --name postgres -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=node-pipes -d postgres
 sudo systemctl daemon-reload
 sudo systemctl start myapp.service
+
+aws s3 --profile my_aws cp D:\projectsHome\node-pipes\backend\build\libs\node-pipes-0.0.1-SNAPSHOT-boot.jar s3://german-test-ci-bucket/node-pipes-0.0.1-SNAPSHOT-boot.jar
+aws s3 cp s3://german-test-ci-bucket/node-pipes-0.0.1-SNAPSHOT-boot.jar /home/ubuntu/node-pipes-0.0.1-SNAPSHOT-boot.jar
