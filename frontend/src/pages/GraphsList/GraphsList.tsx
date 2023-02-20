@@ -15,17 +15,17 @@ const GatewaysList: React.FC = () => {
 	const [graphs, setGraphs] = useState<GraphResource[]>([]);
 
 	useEffect(() => {
-		// async function getData() {
-		// 	const { data } = await graphsApi.getGraphs();
-		//
-		// 	return data;
-		// }
-		// getData()
-		// 	.then((data) => setGraphs(data.content || []))
-		// 	.catch((error) => {
-		// 		console.error(error);
-		// 	})
-		// 	.finally(() => setIsLoading(false));
+		async function getData() {
+			const { data } = await graphsApi.getGraphs();
+
+			return data;
+		}
+		getData()
+			.then((data) => setGraphs(data.content || []))
+			.catch((error) => {
+				console.error(error);
+			})
+			.finally(() => setIsLoading(false));
 	}, []);
 
 	const getRowId: GridRowIdGetter<GraphResource> = useCallback(
