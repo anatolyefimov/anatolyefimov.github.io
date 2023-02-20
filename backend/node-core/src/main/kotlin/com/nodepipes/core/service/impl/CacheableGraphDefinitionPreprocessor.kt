@@ -14,6 +14,7 @@ import java.util.concurrent.ConcurrentHashMap
 class CacheableGraphDefinitionPreprocessor : GraphDefinitionPreprocessor {
 
     //TODO: migrate to normal cache
+    //TODO: preprocessing should include validation
     private val cache: ConcurrentHashMap<Long, GraphDefinition> = ConcurrentHashMap()
 
     override fun process(graph: Graph) = Mono.just(graph).map { init ->

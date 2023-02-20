@@ -7,4 +7,13 @@ data class NodeDefinition(
     val node: Node,
     var children: List<NodeDefinition> = listOf(),
     var parents: List<NodeDefinition> = listOf()
-)
+) {
+    override fun toString(): String {
+        return "NodeDefinition { " +
+                "\"internalId\": ${internalId}, " +
+                "\"node\": ${node}, " +
+                "\"children\": ${children.map { it.internalId }}, " +
+                "\"parent\": ${parents.map { it.internalId }} " +
+                "}"
+    }
+}
