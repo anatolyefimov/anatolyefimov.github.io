@@ -4,9 +4,10 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "npm run generate && tsc && vite build",
     "preview": "vite preview",
-    "lint": "npx eslint --config ./.eslintrc --ext .ts,.tsx ./"
+    "lint": "npx eslint --config ./.eslintrc --ext .ts,.tsx ./",
+    "generate": "rm -rf ./src/api/generated && npx openapi-generator-cli generate -i http://ec2-44-205-3-52.compute-1.amazonaws.com:8080/v3/api-docs -o ./src/api/generated -g typescript-axios"
   },
   "dependencies": {
     "@emotion/react": "^11.10.6",
@@ -20,6 +21,7 @@
     "react-router-dom": "^6.8.1"
   },
   "devDependencies": {
+    "@openapitools/openapi-generator-cli": "^2.5.2",
     "@types/node": "^18.13.0",
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10",

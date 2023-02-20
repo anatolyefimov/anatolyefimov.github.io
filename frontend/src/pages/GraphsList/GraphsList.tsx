@@ -5,33 +5,36 @@ import EditIcon from '@mui/icons-material/Edit';
 import { IconButton } from '@mui/material';
 import { DataGrid, GridColumns, GridRowIdGetter } from '@mui/x-data-grid';
 
-import { graphsApi } from '@/api';
-import { Graph } from '@/api/types';
+import { GraphResource, graphsApi } from '@/api';
 import { paths } from '@/router';
 
 import GridToolbar from './GridToolbar';
 
 const GatewaysList: React.FC = () => {
 	const [isLoading, setIsLoading] = useState<boolean>(true);
-	const [graphs, setGraphs] = useState<Graph[]>([]);
+	const [graphs, setGraphs] = useState<GraphResource[]>([]);
 
 	useEffect(() => {
 		async function getData() {
-			const { data } = await graphsApi.getList();
+			const { data } = await graphsApi.getGraphs();
 
-			setGraphs(data);
+			return data;
 		}
 
 		getData()
+			.then((data) => setGraphs(data.content || []))
 			.catch((error) => {
 				console.error(error);
 			})
 			.finally(() => setIsLoading(false));
 	}, []);
 
-	const getRowId: GridRowIdGetter<Graph> = useCallback(({ id }) => id, []);
+	const getRowId: GridRowIdGetter<GraphResource> = useCallback(
+		({ id }) => id || 0,
+		[]
+	);
 
-	const columns: GridColumns<Graph> = useMemo(
+	const columns: GridColumns<GraphResource> = useMemo(
 		() => [
 			{
 				field: 'id',
@@ -59,7 +62,7 @@ const GatewaysList: React.FC = () => {
 
 	return (
 		<main className="main">
-			<DataGrid<Graph>
+			<DataGrid<GraphResource>
 				columns={columns}
 				rows={graphs}
 				getRowId={getRowId}
