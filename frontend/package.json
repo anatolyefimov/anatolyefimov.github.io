@@ -2,6 +2,7 @@
   "name": "frontend",
   "private": true,
   "version": "0.0.0",
+  "homepage": "https://anatolyefimov.github.io/node-pipes/",
   "scripts": {
     "dev": "vite",
     "build": "npm run generate && tsc && vite build",

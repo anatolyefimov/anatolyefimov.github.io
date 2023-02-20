@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { createBrowserRouter, Navigate, RouteObject } from 'react-router-dom';
+import { createHashRouter, Navigate, RouteObject } from 'react-router-dom';
 
 import App from '@/App';
 import GraphsList from '@/pages/GraphsList';
@@ -31,4 +31,4 @@ export const routes: RouteObject[] = [
 	{ path: '*', element: <Navigate to={paths.graphs} /> },
 ];
 
-export const router = createBrowserRouter(routes);
+export const router = createHashRouter(routes);
