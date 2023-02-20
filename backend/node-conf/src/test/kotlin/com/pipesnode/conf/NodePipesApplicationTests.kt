@@ -1,4 +1,4 @@
-package com.pipesnode
+package com.pipesnode.conf
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
