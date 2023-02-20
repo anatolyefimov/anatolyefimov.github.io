@@ -14,7 +14,7 @@ sourceCompatibility = '17'
 
 tasks.named("bootJar") {
 	archiveClassifier.set("boot")
-	mainClass = 'com.pipesnode.core.nodepipes.ApplicationKt'
+	mainClass = 'com.pipesnode.conf.ApplicationKt'
 }
 repositories {
 	mavenCentral()
