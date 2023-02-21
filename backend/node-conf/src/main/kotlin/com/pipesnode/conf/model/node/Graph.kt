@@ -1,4 +1,4 @@
-package com.pipesnode.conf.model
+package com.pipesnode.conf.model.node
 
 import javax.persistence.CascadeType
 import javax.persistence.Entity

@@ -1,6 +1,6 @@
 package com.pipesnode.conf.service
 
-import com.pipesnode.conf.api.resource.GraphResource
+import com.pipesnode.conf.api.resource.node.GraphResource
 import org.springframework.data.domain.Page
 
 interface GraphService {

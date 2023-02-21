@@ -1,10 +1,12 @@
 package com.pipesnode.conf.mappers
 
-import com.pipesnode.conf.api.resource.GraphResource
-import com.pipesnode.conf.api.resource.NodeResource
-import com.pipesnode.conf.model.Graph
-import com.pipesnode.conf.model.Node
-import com.pipesnode.conf.model.NodePositionType
+import com.pipesnode.conf.api.resource.node.ConnectionNodeSectionResource
+import com.pipesnode.conf.api.resource.node.GraphResource
+import com.pipesnode.conf.api.resource.node.NodeResource
+import com.pipesnode.conf.model.node.ConnectionNodeSection
+import com.pipesnode.conf.model.node.Graph
+import com.pipesnode.conf.model.node.Node
+import com.pipesnode.conf.model.node.NodePositionType
 
 fun GraphResource.map(): Graph {
     val resource = this
@@ -52,13 +54,22 @@ private fun fillNodesAndPutToMap(
 }
 
 private fun NodeResource.map(): Node {
-    val node = this
-    return Node().apply {
-        id = node.id
-        internalId = node.internalId
-        name = node.name
-        positionType = node.positionType
+    val nodeRes = this
+    val nodeModel = Node().apply {
+        id = nodeRes.id
+        internalId = nodeRes.internalId
+        name = nodeRes.name
+        positionType = nodeRes.positionType
+        nodeType = nodeRes.nodeType
     }
+    nodeModel.connectionSection = nodeRes.connectionSection?.let {
+        ConnectionNodeSection().apply {
+            connectionId = it.connectionId
+            interactionMode = it.interactionMode
+            node = nodeModel
+        }
+    }
+    return nodeModel
 }
 
 fun Graph.map(): GraphResource {
@@ -77,6 +88,10 @@ private fun Node.map(): NodeResource {
         node.internalId!!,
         node.name!!,
         node.positionType!!,
+        node.nodeType!!,
+        node.connectionSection?.let {
+            ConnectionNodeSectionResource(it.interactionMode!!, it.connectionId!!)
+        },
         node.children.map {
             it.internalId!!
         }

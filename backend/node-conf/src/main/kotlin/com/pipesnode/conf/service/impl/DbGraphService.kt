@@ -1,6 +1,6 @@
 package com.pipesnode.conf.service.impl
 
-import com.pipesnode.conf.api.resource.GraphResource
+import com.pipesnode.conf.api.resource.node.GraphResource
 import com.pipesnode.conf.mappers.map
 import com.pipesnode.conf.repository.GraphRepository
 import com.pipesnode.conf.service.GraphService
@@ -22,8 +22,7 @@ class DbGraphService(
     }
 
     override fun save(graph: GraphResource): GraphResource {
-        var entity = graph.map()
-        return repo.save(entity).map()
+        return repo.save(graph.map()).map()
     }
 
 }

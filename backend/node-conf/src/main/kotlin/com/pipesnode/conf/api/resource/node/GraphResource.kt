@@ -1,4 +1,4 @@
-package com.pipesnode.conf.api.resource
+package com.pipesnode.conf.api.resource.node
 
 data class GraphResource(
     val id: Long?,

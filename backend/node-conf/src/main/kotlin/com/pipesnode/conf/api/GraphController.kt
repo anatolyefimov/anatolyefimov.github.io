@@ -1,6 +1,6 @@
 package com.pipesnode.conf.api
 
-import com.pipesnode.conf.api.resource.GraphResource
+import com.pipesnode.conf.api.resource.node.GraphResource
 import com.pipesnode.conf.api.resource.ResponseWrapper
 import com.pipesnode.conf.service.impl.DbGraphService
 import org.springframework.data.domain.Page
