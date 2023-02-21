@@ -7,8 +7,10 @@ import com.pipesnode.conf.service.ConnectionService
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageImpl
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
+@Transactional
 class DbBasedConnectionService(
     private val repository: ConnectionRepository
 ) : ConnectionService {

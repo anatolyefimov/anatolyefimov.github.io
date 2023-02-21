@@ -23,7 +23,7 @@ class GraphController(
     }
 
     @GetMapping("/{id}")
-    fun getGraphs(@PathVariable id: Long): ResponseWrapper<GraphResource> {
+    fun getGraph(@PathVariable id: Long): ResponseWrapper<GraphResource> {
         return ResponseWrapper.of(service.get(id))
     }
 

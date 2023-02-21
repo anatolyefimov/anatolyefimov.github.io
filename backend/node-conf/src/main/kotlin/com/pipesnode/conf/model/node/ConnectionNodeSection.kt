@@ -3,6 +3,8 @@ package com.pipesnode.conf.model.node
 import javax.persistence.Entity
 import javax.persistence.EnumType
 import javax.persistence.Enumerated
+import javax.persistence.GeneratedValue
+import javax.persistence.GenerationType
 import javax.persistence.Id
 import javax.persistence.JoinColumn
 import javax.persistence.OneToOne
@@ -11,6 +13,7 @@ import javax.persistence.OneToOne
 class ConnectionNodeSection {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
 
     var connectionId: Long? = null
