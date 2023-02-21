@@ -1,3 +1,8 @@
 package com.nodepipes.core.model.messaging
 
-class NodeOutput
+//TODO:
+class NodeOutput {
+    fun toInput(): NodeInput {
+        return NodeInput()
+    }
+}

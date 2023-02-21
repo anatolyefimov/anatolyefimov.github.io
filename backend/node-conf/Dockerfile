@@ -1,5 +1,5 @@
 FROM openjdk:17-alpine
-COPY ./node-pipes-0.0.1-SNAPSHOT-boot.jar /node-pipes-0.0.1-SNAPSHOT-boot.jar
+COPY ./node-conf-0.0.1-SNAPSHOT-boot.jar /node-conf-0.0.1-SNAPSHOT-boot.jar
 ENV DB_HOST=172.17.0.1
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "/node-pipes-0.0.1-SNAPSHOT-boot.jar"]
+ENTRYPOINT ["java", "-jar", "/node-conf-0.0.1-SNAPSHOT-boot.jar"]

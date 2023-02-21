@@ -1,11 +1,11 @@
-package com.nodepipes.core.execution
+package com.nodepipes.core.model.execution
 
 import com.nodepipes.core.model.messaging.NodeInput
 import com.nodepipes.core.model.messaging.NodeOutput
 import reactor.core.publisher.Mono
 
-interface ExecutableNode {
+interface ExecutableUnit {
 
-    fun execute(input: Mono<NodeInput>): Mono<NodeOutput>
+    fun execute(input: NodeInput): Mono<NodeOutput>
 
 }

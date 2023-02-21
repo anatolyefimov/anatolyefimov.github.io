@@ -71,9 +71,9 @@ class CacheableGraphDefinitionPreprocessor : GraphDefinitionPreprocessor {
 
     private fun createNodeDef(parentNode: NodeDefinition?, node: Node): NodeDefinition {
         return if (parentNode != null) {
-            NodeDefinition(node.internalId, node, listOf(), listOf(parentNode))
+            NodeDefinition(node, listOf(), listOf(parentNode))
         } else {
-            NodeDefinition(node.internalId, node)
+            NodeDefinition(node)
         }
     }
 }

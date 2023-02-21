@@ -1,8 +1,6 @@
-pscp -i D:\work\keys\aws\awskeys.ppk D:\projectsHome\node-pipes\backend\build\libs\node-pipes-0.0.1-SNAPSHOT-boot.jar ubuntu@ec2-44-205-3-52.compute-1.amazonaws.com:/home/ubuntu/node-pipes-0.0.1-SNAPSHOT-boot.jar
+pscp -i D:\work\keys\aws\awskeys.ppk D:\projectsHome\node-pipes\backend\node-conf\build\libs\node-conf-0.0.1-SNAPSHOT-boot.jar ec2-user@ec2-54-197-117-11.compute-1.amazonaws.com:/home/ec2-user/conf/node-conf-0.0.1-SNAPSHOT-boot.jar
+pscp -i D:\work\keys\aws\awskeys.ppk D:\projectsHome\node-pipes\backend\node-conf\Dockerfile ec2-user@ec2-54-197-117-11.compute-1.amazonaws.com:/home/ec2-user/conf/Dockerfile
 
 docker run --name postgres -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=node-pipes -d postgres
-sudo systemctl daemon-reload
-sudo systemctl start myapp.service
-
-aws s3 --profile my_aws cp D:\projectsHome\node-pipes\backend\build\libs\node-pipes-0.0.1-SNAPSHOT-boot.jar s3://german-test-ci-bucket/node-pipes-0.0.1-SNAPSHOT-boot.jar
+aws s3 --profile my_aws cp D:\projectsHome\node-pipes\backend\node-conf\build\libs\node-conf-0.0.1-SNAPSHOT-boot.jar s3://german-test-ci-bucket/node-pipes-0.0.1-SNAPSHOT-boot.jar
 aws s3 cp s3://german-test-ci-bucket/node-pipes-0.0.1-SNAPSHOT-boot.jar /home/ubuntu/node-pipes-0.0.1-SNAPSHOT-boot.jar
