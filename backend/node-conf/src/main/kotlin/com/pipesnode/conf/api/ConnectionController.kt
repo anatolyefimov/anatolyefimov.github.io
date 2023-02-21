@@ -28,7 +28,7 @@ class ConnectionController(
     }
 
     @PostMapping
-    fun saveGraph(@RequestBody connection: ConnectionResource): ResponseWrapper<ConnectionResource> {
+    fun saveConnection(@RequestBody connection: ConnectionResource): ResponseWrapper<ConnectionResource> {
         return ResponseWrapper.of(service.save(connection))
     }
 
