@@ -8,7 +8,7 @@
     "build": "npm run generate && tsc && vite build",
     "preview": "vite preview",
     "lint": "npx eslint --config ./.eslintrc --ext .ts,.tsx ./",
-    "generate": "rm -rf ./src/api/generated && npx openapi-generator-cli generate -i http://ec2-44-205-3-52.compute-1.amazonaws.com:8080/v3/api-docs -o ./src/api/generated -g typescript-axios"
+    "generate": "rm -rf ./src/api/generated && npx openapi-generator-cli generate -i https://ec2-54-197-117-11.compute-1.amazonaws.com/node-conf/v3/api-docs -o ./src/api/generated -g typescript-axios"
   },
   "dependencies": {
     "@emotion/react": "^11.10.6",
