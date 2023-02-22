@@ -1,12 +1,15 @@
 package com.pipesnode.conf.mappers
 
-import com.pipesnode.conf.api.resource.node.ConnectionNodeSectionResource
 import com.pipesnode.conf.api.resource.node.GraphResource
 import com.pipesnode.conf.api.resource.node.NodeResource
-import com.pipesnode.conf.model.node.ConnectionNodeSection
+import com.pipesnode.conf.api.resource.node.connection.ConnectionNodeSectionResource
+import com.pipesnode.conf.api.resource.transformation.JsltCodeBlockResource
+import com.pipesnode.conf.api.resource.transformation.JsltTransformationResource
 import com.pipesnode.conf.model.node.Graph
 import com.pipesnode.conf.model.node.Node
 import com.pipesnode.conf.model.node.NodePositionType
+import com.pipesnode.conf.model.node.connection.ConnectionNodeSection
+import com.pipesnode.conf.model.transformation.JsltTransformation
 
 fun GraphResource.map(): Graph {
     val resource = this
@@ -62,12 +65,17 @@ private fun NodeResource.map(): Node {
         positionType = nodeRes.positionType
         nodeType = nodeRes.nodeType
     }
-    nodeModel.connectionSection = nodeRes.connectionSection?.let {
-        ConnectionNodeSection().apply {
+    val connectionSectionRes = nodeRes.connectionSection
+
+    nodeModel.connectionSection = connectionSectionRes?.let {
+        val section = ConnectionNodeSection().apply {
             connectionId = it.connectionId
             interactionMode = it.interactionMode
             node = nodeModel
         }
+        section.transformationBefore = connectionSectionRes.transformationBefore?.map()
+        section.transformationAfter = connectionSectionRes.transformationAfter?.map()
+        section
     }
     return nodeModel
 }
@@ -89,11 +97,35 @@ private fun Node.map(): NodeResource {
         node.name!!,
         node.positionType!!,
         node.nodeType!!,
-        node.connectionSection?.let {
-            ConnectionNodeSectionResource(it.interactionMode!!, it.connectionId!!)
+        node.connectionSection?.let { section ->
+            ConnectionNodeSectionResource(
+                interactionMode = section.interactionMode,
+                connectionId = section.connectionId,
+                transformationBefore = section.transformationBefore?.map(),
+                transformationAfter = section.transformationAfter?.map()
+            )
         },
         node.children.map {
             it.internalId!!
         }
+    )
+}
+
+fun JsltTransformationResource.map(): JsltTransformation {
+    val resource = this
+    return JsltTransformation(
+        context = resource.context?.jslt,
+        headers = resource.headers?.jslt,
+        payload = resource.payload?.jslt,
+        params = resource.params?.jslt
+    )
+}
+
+fun JsltTransformation.map(): JsltTransformationResource {
+    return JsltTransformationResource(
+        context = context?.let { JsltCodeBlockResource(it) },
+        payload = payload?.let { JsltCodeBlockResource(it) },
+        headers = headers?.let { JsltCodeBlockResource(it) },
+        params = params?.let { JsltCodeBlockResource(it) }
     )
 }

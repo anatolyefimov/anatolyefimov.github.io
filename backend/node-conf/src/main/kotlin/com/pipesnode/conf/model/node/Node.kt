@@ -1,5 +1,6 @@
 package com.pipesnode.conf.model.node
 
+import com.pipesnode.conf.model.node.connection.ConnectionNodeSection
 import javax.persistence.CascadeType
 import javax.persistence.Entity
 import javax.persistence.EnumType

@@ -1,5 +1,6 @@
 package com.pipesnode.conf.api.resource.node
 
+import com.pipesnode.conf.api.resource.node.connection.ConnectionNodeSectionResource
 import com.pipesnode.conf.model.node.NodePositionType
 import com.pipesnode.conf.model.node.NodeType
 
