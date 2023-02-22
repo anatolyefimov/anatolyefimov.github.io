@@ -1,8 +1,8 @@
-package com.nodepipes.core.model.execution.impl
+package com.nodepipes.core.model.execution.node
 
 import com.nodepipes.core.model.execution.ExecutableUnit
-import com.nodepipes.core.model.messaging.NodeInput
-import com.nodepipes.core.model.messaging.NodeOutput
+import com.nodepipes.core.model.messaging.wrapper.NodeInput
+import com.nodepipes.core.model.messaging.wrapper.NodeOutput
 import com.nodepipes.core.model.preprocessing.GraphDefinition
 import com.nodepipes.core.model.preprocessing.NodeDefinition
 import com.nodepipes.core.service.ExecutableNodeProvider
