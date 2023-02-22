@@ -5,12 +5,10 @@ import { createHashRouter, Navigate, RouteObject } from 'react-router-dom';
 import App from '@/App';
 import GraphsList from '@/pages/GraphsList';
 
-const baseUrl = import.meta.env.BASE_URL;
-
 export const paths = {
-	index: baseUrl,
-	graphs: `${baseUrl}graphs`,
-	graphWithId: `${baseUrl}graphs/:id`,
+	index: '/',
+	graphs: '/graphs',
+	graphWithId: '/graphs/:id',
 };
 
 export const newItemId = 'new';

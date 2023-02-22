@@ -27,5 +27,9 @@ export default defineConfig(({ mode }) => {
 		},
 	};
 
+	if (mode === 'production') {
+		config.base = '/node-pipes/';
+	}
+
 	return config;
 });
