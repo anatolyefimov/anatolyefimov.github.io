@@ -1,11 +1,11 @@
-package com.nodepipes.core.service
+package com.nodepipes.core.domain.execution
 
 import com.nodepipes.core.domain.messaging.wrapper.NodeInput
 import com.nodepipes.core.domain.messaging.wrapper.NodeOutput
 import reactor.core.publisher.Mono
 
-interface GraphExecutor {
+interface Action {
 
-    fun execute(graphId: Long, input: NodeInput): Mono<NodeOutput>
+    fun apply(input: NodeInput): Mono<NodeOutput>
 
 }

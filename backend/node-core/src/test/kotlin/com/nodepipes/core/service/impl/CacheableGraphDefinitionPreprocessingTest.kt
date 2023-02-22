@@ -1,8 +1,8 @@
 package com.nodepipes.core.service.impl
 
-import com.nodepipes.core.model.node.Graph
-import com.nodepipes.core.model.node.Node
-import com.nodepipes.core.model.node.NodePositionType
+import com.nodepipes.core.domain.model.node.Graph
+import com.nodepipes.core.domain.model.node.Node
+import com.nodepipes.core.domain.model.node.NodePositionType
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 

@@ -1,6 +1,6 @@
 package com.pipesnode.conf.api.resource
 
-data class ResponseWrapper<T> private constructor(
+data class ResponseWrapper<T>(
     val content: T
 ) {
 
