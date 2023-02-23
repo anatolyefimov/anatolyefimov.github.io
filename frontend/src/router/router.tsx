@@ -3,6 +3,7 @@ import React from 'react';
 import { createHashRouter, Navigate, RouteObject } from 'react-router-dom';
 
 import App from '@/App';
+import Graph from '@/pages/Graph';
 import GraphsList from '@/pages/GraphsList';
 
 export const paths = {
@@ -22,7 +23,7 @@ export const routes: RouteObject[] = [
 				path: paths.graphs,
 				element: <GraphsList />,
 			},
-
+			{ path: paths.graphWithId, element: <Graph /> },
 			{ path: paths.index, element: <Navigate to={paths.graphs} /> },
 		],
 	},

@@ -7,8 +7,6 @@ const configuration = new Configuration({
 			: 'http://localhost:5173/api',
 });
 
-console.log(configuration.basePath);
-
 export const graphsApi = new GraphControllerApi(configuration);
 
 export * from './generated';

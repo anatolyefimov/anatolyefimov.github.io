@@ -20,6 +20,7 @@ const GatewaysList: React.FC = () => {
 
 			return data;
 		}
+
 		getData()
 			.then((data) => setGraphs(data.content || []))
 			.catch((error) => {

@@ -14,7 +14,7 @@ export default defineConfig(({ mode }) => {
 				'@/': path.join(__dirname, 'src/'),
 			},
 		},
-		plugins: [react(), eslint()],
+		plugins: [react(), eslint({ lintOnStart: true })],
 		server: {
 			proxy: {
 				'/api': {
