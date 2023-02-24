@@ -1,4 +1,4 @@
-package com.nodepipes.core.service
+package com.nodepipes.core.service.graph
 
 import com.nodepipes.core.domain.messaging.wrapper.NodeInput
 import com.nodepipes.core.domain.messaging.wrapper.NodeOutput

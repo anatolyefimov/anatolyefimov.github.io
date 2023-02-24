@@ -5,12 +5,11 @@ import org.w3c.dom.Document
 
 sealed class Payload(
     val type: PayloadType,
-    val data: Any
 ) {
 
-    class JsonPayload(data: JsonNode) : Payload(PayloadType.JSON, data)
+    class JsonPayload(val data: JsonNode) : Payload(PayloadType.JSON)
 
-    class XmlPayload(data: Document) : Payload(PayloadType.XML, data)
+    class XmlPayload(val data: Document) : Payload(PayloadType.XML)
 
-    class RawPayload(data: String) : Payload(PayloadType.RAW, data)
+    class RawPayload(val data: String) : Payload(PayloadType.RAW)
 }

@@ -1,4 +1,4 @@
-package com.nodepipes.core.service
+package com.nodepipes.core.service.graph
 
 import com.nodepipes.core.domain.execution.node.ExecutableNode
 import com.nodepipes.core.domain.preprocessing.NodeDefinition

@@ -5,7 +5,7 @@ import com.nodepipes.core.domain.messaging.wrapper.NodeInput
 import com.nodepipes.core.domain.messaging.wrapper.NodeOutput
 import com.nodepipes.core.domain.preprocessing.GraphDefinition
 import com.nodepipes.core.domain.preprocessing.NodeDefinition
-import com.nodepipes.core.service.ExecutableNodeProvider
+import com.nodepipes.core.service.graph.ExecutableNodeProvider
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import reactor.core.scheduler.Schedulers

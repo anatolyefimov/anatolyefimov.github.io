@@ -7,7 +7,7 @@ import com.nodepipes.core.domain.model.node.Node
 import com.nodepipes.core.domain.model.node.NodePositionType
 import com.nodepipes.core.domain.preprocessing.GraphDefinition
 import com.nodepipes.core.domain.preprocessing.NodeDefinition
-import com.nodepipes.core.service.ExecutableNodeProvider
+import com.nodepipes.core.service.graph.ExecutableNodeProvider
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.junit.jupiter.MockitoExtension

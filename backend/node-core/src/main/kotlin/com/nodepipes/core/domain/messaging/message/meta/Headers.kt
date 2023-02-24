@@ -6,4 +6,10 @@ class Headers private constructor(
     fun merge(headers: Headers): Headers {
         return Headers(this.data + headers.data)
     }
+
+    companion object {
+        fun of(data: Map<String, Any>): Headers {
+            return Headers(data)
+        }
+    }
 }

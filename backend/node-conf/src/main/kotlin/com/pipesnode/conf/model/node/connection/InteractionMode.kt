@@ -1,5 +1,5 @@
 package com.pipesnode.conf.model.node.connection
 
 enum class InteractionMode {
-    READ, WRITE, EDIT, REMOVE
+    READ, WRITE, UPDATE, EDIT, REMOVE
 }
