@@ -1,13 +1,17 @@
-package com.nodepipes.core.domain.messaging.message
+package com.nodepipes.core.domain.messaging.message.meta
 
 class Context private constructor(
-    private val data: HashMap<String, Any> = HashMap()
+    private val data: Map<String, Any> = HashMap()
 ) : Map<String, Any> by data {
+
+    fun merge(context: Context): Context {
+        return Context(this.data + context.data)
+    }
 
 
     companion object {
         fun create(context: Context): Context {
-            return Context(HashMap(context.data))
+            return Context(context.data)
         }
 
         fun empty(): Context {
@@ -15,7 +19,7 @@ class Context private constructor(
         }
 
         fun combine(context1: Context, context2: Context): Context {
-            return Context(HashMap(context1.data + context2.data))
+            return Context(context1.data + context2.data)
         }
     }
 

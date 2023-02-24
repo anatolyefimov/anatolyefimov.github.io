@@ -3,7 +3,7 @@ package com.nodepipes.core.domain.messaging.wrapper.impl
 import com.nodepipes.core.domain.messaging.message.Message
 import com.nodepipes.core.domain.messaging.wrapper.NodeInput
 
-data class ManyMessageHolder(private val messages: List<Message>) : NodeInput {
+data class MessageCarrier(private val messages: List<Message>) : NodeInput {
 
     override fun getMessages(): List<Message> {
         return ArrayList(messages)

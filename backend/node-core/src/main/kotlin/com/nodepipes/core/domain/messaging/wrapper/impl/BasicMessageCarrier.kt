@@ -3,15 +3,16 @@ package com.nodepipes.core.domain.messaging.wrapper.impl
 import com.nodepipes.core.domain.messaging.message.Message
 import com.nodepipes.core.domain.messaging.wrapper.NodeInput
 import com.nodepipes.core.domain.messaging.wrapper.NodeOutput
+import com.nodepipes.core.domain.messaging.wrapper.BasicNodeInput
 
-data class SingleMessageHolder(private val message: Message) : NodeInput, NodeOutput {
+data class BasicMessageCarrier(private val message: Message) : BasicNodeInput, NodeOutput {
 
     override fun getMessages(): List<Message> {
         return listOf(message)
     }
 
     override fun combine(node: NodeInput): NodeInput {
-        return ManyMessageHolder(node.getMessages() + message)
+        return MessageCarrier(node.getMessages() + message)
     }
 
     override fun getMessage(): Message {
