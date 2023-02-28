@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode
 import com.nodepipes.core.domain.messaging.message.Message
 import com.nodepipes.core.domain.messaging.message.meta.Headers
 import com.nodepipes.core.domain.messaging.message.payload.Payload
-import com.nodepipes.core.domain.model.connection.Connection
+import com.nodepipes.core.domain.model.connection.ConnectionResource
 import com.nodepipes.core.domain.model.connection.ConnectionType
 import com.nodepipes.core.domain.model.node.connection.InteractionMode
 import com.nodepipes.core.service.connection.ConnectionExecutor
@@ -24,7 +24,7 @@ class HttpConnectionExecutor : ConnectionExecutor {
         get() = ConnectionType.HTTP
 
     //TODO: абстрагироваться от типа данных
-    override fun connect(message: Message, interactionMode: InteractionMode, connection: Connection): Mono<Message> {
+    override fun connect(message: Message, interactionMode: InteractionMode, connection: ConnectionResource): Mono<Message> {
         return WebClient.create(connection.connectionString).method(mapInteractionModeToMethod(interactionMode))
             .uri { uriBuilder ->
                 uriBuilder.apply { message.params.entries.forEach { queryParam(it.key, it.value) } }.build()

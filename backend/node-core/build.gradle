@@ -23,6 +23,8 @@ ext {
 dependencies {
     //Spring
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    implementation 'com.playtika.reactivefeign:feign-reactor-webclient:3.2.6'
+    implementation 'com.playtika.reactivefeign:feign-reactor-spring-configuration:3.2.6'
 
     //kotlin
     implementation 'io.projectreactor.kotlin:reactor-kotlin-extensions'
