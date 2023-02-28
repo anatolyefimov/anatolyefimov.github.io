@@ -1,19 +1,19 @@
-package com.nodepipes.core.domain.execution.node
+package com.nodepipes.core.service.execution.impl
 
-import com.nodepipes.core.domain.execution.ExecutableUnit
 import com.nodepipes.core.domain.messaging.wrapper.MessageCarrier
 import com.nodepipes.core.domain.messaging.wrapper.SingleMessageCarrier
 import com.nodepipes.core.domain.preprocessing.GraphDefinition
 import com.nodepipes.core.domain.preprocessing.NodeDefinition
-import com.nodepipes.core.service.graph.ExecutableNodeProvider
+import com.nodepipes.core.service.execution.NodeExecutorProvider
+import com.nodepipes.core.service.execution.GraphExecutor
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import reactor.core.scheduler.Schedulers
 import java.util.concurrent.ConcurrentHashMap
 
-class ExecutableGraph(
-    private val nodeProvider: ExecutableNodeProvider, private val definition: GraphDefinition
-) : ExecutableUnit {
+class GraphExecutorImpl(
+    private val nodeProvider: NodeExecutorProvider, private val definition: GraphDefinition
+) : GraphExecutor {
 
     private val internalIdToOutput: ConcurrentHashMap<Long, Mono<SingleMessageCarrier>> = ConcurrentHashMap()
 

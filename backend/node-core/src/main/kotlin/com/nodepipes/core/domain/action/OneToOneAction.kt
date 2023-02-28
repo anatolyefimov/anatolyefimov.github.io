@@ -1,4 +1,4 @@
-package com.nodepipes.core.domain.execution.action
+package com.nodepipes.core.domain.action
 
 import com.nodepipes.core.domain.messaging.wrapper.SingleMessageCarrier
 import com.nodepipes.core.domain.preprocessing.NodeDefinition
@@ -8,5 +8,5 @@ interface OneToOneAction {
 
     val node: NodeDefinition
 
-    fun apply(input: SingleMessageCarrier): Mono<SingleMessageCarrier>
+    operator fun invoke(input: SingleMessageCarrier): Mono<SingleMessageCarrier>
 }

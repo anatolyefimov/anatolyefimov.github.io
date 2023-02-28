@@ -1,14 +1,15 @@
-package com.nodepipes.core.domain.execution.action
+package com.nodepipes.core.service.execution
 
 import com.nodepipes.core.domain.messaging.wrapper.MessageCarrier
 import com.nodepipes.core.domain.messaging.wrapper.SingleMessageCarrier
+import com.nodepipes.core.domain.model.node.NodeType
 import com.nodepipes.core.domain.preprocessing.NodeDefinition
 import reactor.core.publisher.Mono
 
-interface ManyToOneAction {
+interface NodeExecutor {
 
-    val node: NodeDefinition
+    fun nodeType(): NodeType
 
-    fun apply(input: MessageCarrier): Mono<SingleMessageCarrier>
+    fun execute(input: MessageCarrier, node: NodeDefinition): Mono<SingleMessageCarrier>
 
 }

@@ -1,4 +1,4 @@
-package com.nodepipes.core.domain.execution.action
+package com.nodepipes.core.domain.action
 
 import com.nodepipes.core.domain.messaging.wrapper.MessageCarrier
 import com.nodepipes.core.domain.preprocessing.NodeDefinition
@@ -8,6 +8,6 @@ interface ManyToManyAction {
 
     val node: NodeDefinition
 
-    fun apply(input: MessageCarrier): Mono<MessageCarrier>
+    operator fun invoke(input: MessageCarrier): Mono<MessageCarrier>
 
 }

@@ -3,7 +3,7 @@ package com.nodepipes.core.service.impl
 import com.nodepipes.core.domain.model.node.Graph
 import com.nodepipes.core.domain.model.node.Node
 import com.nodepipes.core.domain.model.node.NodePositionType
-import com.nodepipes.core.service.graph.impl.CacheableGraphDefinitionPreprocessor
+import com.nodepipes.core.service.execution.impl.CacheableGraphDefinitionPreprocessor
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 

@@ -1,9 +1,9 @@
-package com.nodepipes.core.domain.execution.action.impl
+package com.nodepipes.core.domain.action.impl
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.node.NullNode
 import com.nodepipes.core.domain.exception.InvalidNodeExecutionContextException
-import com.nodepipes.core.domain.execution.action.ManyToOneAction
+import com.nodepipes.core.domain.action.ManyToOneAction
 import com.nodepipes.core.domain.messaging.message.Message
 import com.nodepipes.core.domain.messaging.wrapper.MessageCarrier
 import com.nodepipes.core.domain.messaging.wrapper.SingleMessageCarrier
@@ -20,7 +20,7 @@ class JsltTransformAction(
     private val transformation: JsltTransformation
 ) : ManyToOneAction {
 
-    override fun apply(input: MessageCarrier): Mono<SingleMessageCarrier> {
+    override fun invoke(input: MessageCarrier): Mono<SingleMessageCarrier> {
         return Mono.just(constructVars(input)).map { vars ->
             ImmutableSingleCarrier(
                 Message(

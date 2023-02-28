@@ -1,23 +1,25 @@
 package com.nodepipes.core.domain.execution
 
-import com.nodepipes.core.domain.execution.node.ExecutableGraph
-import com.nodepipes.core.domain.execution.node.ConnectionNode
+import com.nodepipes.core.service.execution.impl.ConnectionNodeExecutor
 import com.nodepipes.core.domain.messaging.wrapper.MessageCarrier
 import com.nodepipes.core.domain.model.node.Node
 import com.nodepipes.core.domain.model.node.NodePositionType
 import com.nodepipes.core.domain.preprocessing.GraphDefinition
 import com.nodepipes.core.domain.preprocessing.NodeDefinition
-import com.nodepipes.core.service.graph.ExecutableNodeProvider
+import com.nodepipes.core.service.execution.NodeExecutorProvider
+import com.nodepipes.core.service.execution.GraphExecutor
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.junit.jupiter.MockitoExtension
 import reactor.core.publisher.Mono
 
 @ExtendWith(MockitoExtension::class)
-class ExecutableGraphTest {
+class GraphExecutorImplTest {
 
-    private val nodeProvider: ExecutableNodeProvider = object : ExecutableNodeProvider {
-        override fun getNode(node: NodeDefinition): Mono<ExecutableUnit> = Mono.just(ConnectionNode(node))
+    private val nodeProvider: NodeExecutorProvider = object : NodeExecutorProvider {
+        override fun getNode(node: NodeDefinition): Mono<com.nodepipes.core.service.execution.GraphExecutor> = Mono.just(
+            ConnectionNodeExecutor(node)
+        )
     }
 
     @Test
@@ -44,7 +46,7 @@ class ExecutableGraphTest {
 
         val graphDefinition = GraphDefinition(1L, nodeDefinition1, nodeDefinition6)
 
-        val block = ExecutableGraph(nodeProvider, graphDefinition).execute(MessageCarrier()).block()
+        val block = GraphExecutor(nodeProvider, graphDefinition).execute(MessageCarrier()).block()
     }
 
     @Test

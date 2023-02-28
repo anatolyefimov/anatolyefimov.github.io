@@ -4,6 +4,7 @@ import com.nodepipes.core.domain.model.connection.ConnectionType
 import com.nodepipes.core.service.connection.ConnectionExecutor
 import com.nodepipes.core.service.connection.ConnectionExecutorProvider
 import org.springframework.stereotype.Component
+import reactor.core.publisher.Mono
 
 @Component
 class ContextBasedConnectionExecutorProvider(
@@ -12,6 +13,6 @@ class ContextBasedConnectionExecutorProvider(
 
     private val connectionExecutors = connectionExecutors.associateBy { it.connectionType }
 
-    override fun getConnectionExecutor(connectionType: ConnectionType): ConnectionExecutor =
-        connectionExecutors.getValue(connectionType)
+    override fun getConnectionExecutor(connectionType: ConnectionType): Mono<ConnectionExecutor> =
+        Mono.just(connectionExecutors.getValue(connectionType))
 }
