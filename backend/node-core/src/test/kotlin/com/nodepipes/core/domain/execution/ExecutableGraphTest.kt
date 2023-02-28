@@ -1,8 +1,8 @@
 package com.nodepipes.core.domain.execution
 
 import com.nodepipes.core.domain.execution.node.ExecutableGraph
-import com.nodepipes.core.domain.execution.node.ExecutableNode
-import com.nodepipes.core.domain.messaging.wrapper.NodeInput
+import com.nodepipes.core.domain.execution.node.ConnectionNode
+import com.nodepipes.core.domain.messaging.wrapper.MessageCarrier
 import com.nodepipes.core.domain.model.node.Node
 import com.nodepipes.core.domain.model.node.NodePositionType
 import com.nodepipes.core.domain.preprocessing.GraphDefinition
@@ -17,7 +17,7 @@ import reactor.core.publisher.Mono
 class ExecutableGraphTest {
 
     private val nodeProvider: ExecutableNodeProvider = object : ExecutableNodeProvider {
-        override fun getNode(node: NodeDefinition): Mono<ExecutableNode> = Mono.just(ExecutableNode(node))
+        override fun getNode(node: NodeDefinition): Mono<ExecutableUnit> = Mono.just(ConnectionNode(node))
     }
 
     @Test
@@ -44,7 +44,7 @@ class ExecutableGraphTest {
 
         val graphDefinition = GraphDefinition(1L, nodeDefinition1, nodeDefinition6)
 
-        val block = ExecutableGraph(nodeProvider, graphDefinition).execute(NodeInput()).block()
+        val block = ExecutableGraph(nodeProvider, graphDefinition).execute(MessageCarrier()).block()
     }
 
     @Test

@@ -1,10 +1,11 @@
-package com.nodepipes.core.service.graph
+package com.nodepipes.core.service.graph.impl
 
 import com.nodepipes.core.domain.model.node.Graph
 import com.nodepipes.core.domain.model.node.Node
 import com.nodepipes.core.domain.model.node.NodePositionType
 import com.nodepipes.core.domain.preprocessing.GraphDefinition
 import com.nodepipes.core.domain.preprocessing.NodeDefinition
+import com.nodepipes.core.service.graph.GraphDefinitionPreprocessor
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Mono
 import java.util.concurrent.ConcurrentHashMap

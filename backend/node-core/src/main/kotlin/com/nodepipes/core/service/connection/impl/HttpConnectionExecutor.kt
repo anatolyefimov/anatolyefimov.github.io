@@ -5,6 +5,7 @@ import com.nodepipes.core.domain.messaging.message.Message
 import com.nodepipes.core.domain.messaging.message.meta.Headers
 import com.nodepipes.core.domain.messaging.message.payload.Payload
 import com.nodepipes.core.domain.model.connection.Connection
+import com.nodepipes.core.domain.model.connection.ConnectionType
 import com.nodepipes.core.domain.model.node.connection.InteractionMode
 import com.nodepipes.core.service.connection.ConnectionExecutor
 import org.springframework.http.HttpMethod
@@ -18,6 +19,9 @@ import reactor.core.publisher.Mono
 
 @Component
 class HttpConnectionExecutor : ConnectionExecutor {
+
+    override val connectionType: ConnectionType
+        get() = ConnectionType.HTTP
 
     //TODO: абстрагироваться от типа данных
     override fun connect(message: Message, interactionMode: InteractionMode, connection: Connection): Mono<Message> {

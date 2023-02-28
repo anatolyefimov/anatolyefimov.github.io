@@ -1,13 +1,13 @@
-package com.nodepipes.core.domain.execution.action.transform
+package com.nodepipes.core.domain.execution.action.impl
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.node.NullNode
 import com.nodepipes.core.domain.exception.InvalidNodeExecutionContextException
-import com.nodepipes.core.domain.execution.Action
+import com.nodepipes.core.domain.execution.action.ManyToOneAction
 import com.nodepipes.core.domain.messaging.message.Message
-import com.nodepipes.core.domain.messaging.wrapper.NodeInput
-import com.nodepipes.core.domain.messaging.wrapper.NodeOutput
-import com.nodepipes.core.domain.messaging.wrapper.impl.BasicMessageCarrier
+import com.nodepipes.core.domain.messaging.wrapper.MessageCarrier
+import com.nodepipes.core.domain.messaging.wrapper.SingleMessageCarrier
+import com.nodepipes.core.domain.messaging.wrapper.impl.ImmutableSingleCarrier
 import com.nodepipes.core.domain.model.transformation.JsltCodeBlock
 import com.nodepipes.core.domain.model.transformation.JsltTransformation
 import com.nodepipes.core.domain.preprocessing.NodeDefinition
@@ -18,11 +18,11 @@ import reactor.core.publisher.Mono
 class JsltTransformAction(
     override val node: NodeDefinition,
     private val transformation: JsltTransformation
-) : Action {
+) : ManyToOneAction {
 
-    override fun apply(input: NodeInput): Mono<NodeOutput> {
+    override fun apply(input: MessageCarrier): Mono<SingleMessageCarrier> {
         return Mono.just(constructVars(input)).map { vars ->
-            BasicMessageCarrier(
+            ImmutableSingleCarrier(
                 Message(
                     headers = transform(transformation.headers, vars) {
                         input.getMessages().map { it.headers }.reduceRight { a, b -> a.merge(b) }
@@ -59,7 +59,7 @@ class JsltTransformAction(
     }
 
 
-    private fun constructVars(input: NodeInput): Map<String, JsonNode> {
+    private fun constructVars(input: MessageCarrier): Map<String, JsonNode> {
         val mainVars = input.getMessages().map {
             mutableMapOf<String, JsonNode>(
                 "${it.source}_headers" to objectMapper.valueToTree(it.headers),

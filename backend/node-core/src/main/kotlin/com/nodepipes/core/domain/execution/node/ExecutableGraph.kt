@@ -1,8 +1,8 @@
 package com.nodepipes.core.domain.execution.node
 
 import com.nodepipes.core.domain.execution.ExecutableUnit
-import com.nodepipes.core.domain.messaging.wrapper.NodeInput
-import com.nodepipes.core.domain.messaging.wrapper.NodeOutput
+import com.nodepipes.core.domain.messaging.wrapper.MessageCarrier
+import com.nodepipes.core.domain.messaging.wrapper.SingleMessageCarrier
 import com.nodepipes.core.domain.preprocessing.GraphDefinition
 import com.nodepipes.core.domain.preprocessing.NodeDefinition
 import com.nodepipes.core.service.graph.ExecutableNodeProvider
@@ -15,13 +15,13 @@ class ExecutableGraph(
     private val nodeProvider: ExecutableNodeProvider, private val definition: GraphDefinition
 ) : ExecutableUnit {
 
-    private val internalIdToOutput: ConcurrentHashMap<Long, Mono<NodeOutput>> = ConcurrentHashMap()
+    private val internalIdToOutput: ConcurrentHashMap<Long, Mono<SingleMessageCarrier>> = ConcurrentHashMap()
 
-    override fun execute(input: NodeInput): Mono<NodeOutput> {
+    override fun execute(input: MessageCarrier): Mono<SingleMessageCarrier> {
         return executeGraph(input, definition.terminalNode)
     }
 
-    private fun executeGraph(input: NodeInput, definition: NodeDefinition): Mono<NodeOutput> {
+    private fun executeGraph(input: MessageCarrier, definition: NodeDefinition): Mono<SingleMessageCarrier> {
         return if (definition.isInitial()) {
             getOutput(definition.internalId) {
                 nodeProvider.getNode(definition).flatMap { it.execute(input) }
@@ -30,18 +30,18 @@ class ExecutableGraph(
             nodeProvider.getNode(definition).flatMap { current ->
                 getOutput(definition.parents.single().internalId) {
                     executeGraph(input, definition.parents.single())
-                }.flatMap { current.execute(it.toInput()) }
+                }.flatMap { current.execute(it) }
             }
         } else {
             Flux.fromArray(definition.parents.toTypedArray()).flatMap { node ->
                 getOutput(node.internalId) { executeGraph(input, node) }
-            }.map { out -> out.toInput() }.reduce { in1, in2 -> in1.combine(in2) }.flatMap {
+            }.map { it as MessageCarrier }.reduce { in1, in2 -> in1.combine(in2) }.flatMap {
                 nodeProvider.getNode(definition).flatMap { exec -> exec.execute(it) }
             }
         }
     }
 
-    private inline fun getOutput(internalId: Long, calc: () -> Mono<NodeOutput>): Mono<NodeOutput> {
+    private inline fun getOutput(internalId: Long, calc: () -> Mono<SingleMessageCarrier>): Mono<SingleMessageCarrier> {
         return if (internalIdToOutput.containsKey(internalId)) {
             internalIdToOutput[internalId]!!
         } else {

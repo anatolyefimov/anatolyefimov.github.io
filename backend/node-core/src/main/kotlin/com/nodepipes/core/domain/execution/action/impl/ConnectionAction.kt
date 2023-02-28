@@ -1,8 +1,7 @@
-package com.nodepipes.core.domain.execution.action.connection
+package com.nodepipes.core.domain.execution.action.impl
 
-import com.nodepipes.core.domain.execution.BasicAction
-import com.nodepipes.core.domain.messaging.wrapper.BasicNodeInput
-import com.nodepipes.core.domain.messaging.wrapper.NodeOutput
+import com.nodepipes.core.domain.execution.action.OneToOneAction
+import com.nodepipes.core.domain.messaging.wrapper.SingleMessageCarrier
 import com.nodepipes.core.domain.model.connection.Connection
 import com.nodepipes.core.domain.model.node.connection.InteractionMode
 import com.nodepipes.core.domain.preprocessing.NodeDefinition
@@ -14,9 +13,9 @@ class ConnectionAction(
     private val connectionExecutor: ConnectionExecutor,
     private val connection: Connection,
     private val interactionMode: InteractionMode
-) : BasicAction {
+) : OneToOneAction {
 
-    override fun apply(input: BasicNodeInput): Mono<NodeOutput> {
+    override fun apply(input: SingleMessageCarrier): Mono<SingleMessageCarrier> {
         TODO("Not yet implemented")
     }
 
