@@ -2,8 +2,8 @@ package com.nodepipes.core.service.execution.impl
 
 import com.nodepipes.core.domain.messaging.wrapper.MessageCarrier
 import com.nodepipes.core.domain.messaging.wrapper.SingleMessageCarrier
-import com.nodepipes.core.domain.preprocessing.GraphDefinition
-import com.nodepipes.core.domain.preprocessing.NodeDefinition
+import com.nodepipes.core.domain.model.node.Graph
+import com.nodepipes.core.domain.model.node.Node
 import com.nodepipes.core.service.execution.NodeExecutorProvider
 import com.nodepipes.core.service.execution.GraphExecutor
 import reactor.core.publisher.Flux
@@ -12,7 +12,7 @@ import reactor.core.scheduler.Schedulers
 import java.util.concurrent.ConcurrentHashMap
 
 class GraphExecutorImpl(
-    private val nodeProvider: NodeExecutorProvider, private val definition: GraphDefinition
+    private val nodeProvider: NodeExecutorProvider, private val definition: Graph
 ) : GraphExecutor {
 
     private val internalIdToOutput: ConcurrentHashMap<Long, Mono<SingleMessageCarrier>> = ConcurrentHashMap()
@@ -21,22 +21,22 @@ class GraphExecutorImpl(
         return executeGraph(input, definition.terminalNode)
     }
 
-    private fun executeGraph(input: MessageCarrier, definition: NodeDefinition): Mono<SingleMessageCarrier> {
+    private fun executeGraph(input: MessageCarrier, definition: Node): Mono<SingleMessageCarrier> {
         return if (definition.isInitial()) {
             getOutput(definition.internalId) {
-                nodeProvider.getNode(definition).flatMap { it.execute(input) }
+                nodeProvider.getNode(definition).flatMap { it.execute(input, definition) }
             }
         } else if (definition.parents.size == 1) {
             nodeProvider.getNode(definition).flatMap { current ->
                 getOutput(definition.parents.single().internalId) {
                     executeGraph(input, definition.parents.single())
-                }.flatMap { current.execute(it) }
+                }.flatMap { current.execute(it, definition) }
             }
         } else {
             Flux.fromArray(definition.parents.toTypedArray()).flatMap { node ->
                 getOutput(node.internalId) { executeGraph(input, node) }
             }.map { it as MessageCarrier }.reduce { in1, in2 -> in1.combine(in2) }.flatMap {
-                nodeProvider.getNode(definition).flatMap { exec -> exec.execute(it) }
+                nodeProvider.getNode(definition).flatMap { exec -> exec.execute(it, definition) }
             }
         }
     }

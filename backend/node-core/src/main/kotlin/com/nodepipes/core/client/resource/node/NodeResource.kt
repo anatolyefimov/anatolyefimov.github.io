@@ -5,7 +5,7 @@ import com.nodepipes.core.domain.model.node.NodePositionType
 import com.nodepipes.core.domain.model.node.NodeType
 
 data class NodeResource(
-    val id: Long?,
+    val id: Long,
     val internalId: Long,
     val name: String,
     val positionType: NodePositionType,

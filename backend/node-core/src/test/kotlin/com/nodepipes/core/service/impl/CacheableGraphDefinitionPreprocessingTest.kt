@@ -1,20 +1,18 @@
 package com.nodepipes.core.service.impl
 
-import com.nodepipes.core.domain.model.node.Graph
-import com.nodepipes.core.domain.model.node.Node
 import com.nodepipes.core.domain.model.node.NodePositionType
-import com.nodepipes.core.service.execution.impl.CacheableGraphDefinitionPreprocessor
+import com.nodepipes.core.client.mapper.GraphResourceMapper
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 class CacheableGraphDefinitionPreprocessingTest {
 
 
-    private lateinit var preprocessor: CacheableGraphDefinitionPreprocessor
+    private lateinit var preprocessor: GraphResourceMapper
 
     @BeforeEach
     fun setUp() {
-        preprocessor = CacheableGraphDefinitionPreprocessor()
+        preprocessor = GraphResourceMapper()
     }
 
     @Test
@@ -32,7 +30,7 @@ class CacheableGraphDefinitionPreprocessingTest {
                 )
         )
 
-        val graphDefinition = preprocessor.process(graph).block()
+        val graphDefinition = preprocessor.map(graph).block()
         print(graphDefinition)
     }
 

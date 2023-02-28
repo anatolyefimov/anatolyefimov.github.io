@@ -1,6 +1,6 @@
 package com.nodepipes.core.service.execution.impl
 
-import com.nodepipes.core.domain.preprocessing.NodeDefinition
+import com.nodepipes.core.domain.model.node.Node
 import com.nodepipes.core.service.execution.NodeExecutor
 import com.nodepipes.core.service.execution.NodeExecutorProvider
 import org.springframework.stereotype.Component
@@ -12,8 +12,8 @@ class NodeExecutorProviderImpl(executors: List<NodeExecutor>) : NodeExecutorProv
 
     val executors = executors.associateBy { it.nodeType() }
 
-    override fun getNode(node: NodeDefinition): Mono<NodeExecutor> {
-        return executors[node.node.nodeType]!!.toMono()
+    override fun getNode(node: Node): Mono<NodeExecutor> {
+        return executors[node.nodeType]!!.toMono()
     }
 
 }

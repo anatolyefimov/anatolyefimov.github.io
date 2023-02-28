@@ -1,10 +1,10 @@
 package com.nodepipes.core.service.execution
 
-import com.nodepipes.core.domain.preprocessing.NodeDefinition
+import com.nodepipes.core.domain.model.node.Node
 import reactor.core.publisher.Mono
 
 interface NodeExecutorProvider {
 
-    fun getNode(node: NodeDefinition): Mono<NodeExecutor>
+    fun getNode(node: Node): Mono<NodeExecutor>
 
 }

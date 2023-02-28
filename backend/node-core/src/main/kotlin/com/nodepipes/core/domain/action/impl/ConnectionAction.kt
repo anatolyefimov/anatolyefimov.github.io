@@ -3,16 +3,16 @@ package com.nodepipes.core.domain.action.impl
 import com.nodepipes.core.domain.action.OneToOneAction
 import com.nodepipes.core.domain.messaging.wrapper.SingleMessageCarrier
 import com.nodepipes.core.domain.messaging.wrapper.impl.ImmutableSingleCarrier
-import com.nodepipes.core.domain.model.connection.ConnectionResource
+import com.nodepipes.core.domain.model.connection.Connection
+import com.nodepipes.core.domain.model.node.Node
 import com.nodepipes.core.domain.model.node.connection.InteractionMode
-import com.nodepipes.core.domain.preprocessing.NodeDefinition
 import com.nodepipes.core.service.connection.ConnectionExecutor
 import reactor.core.publisher.Mono
 
 class ConnectionAction(
-    override val node: NodeDefinition,
+    override val node: Node,
     private val connectionExecutor: ConnectionExecutor,
-    private val connection: ConnectionResource,
+    private val connection: Connection,
     private val interactionMode: InteractionMode
 ) : OneToOneAction {
 

@@ -1,8 +1,8 @@
 package com.nodepipes.core.domain.exception
 
-import com.nodepipes.core.domain.preprocessing.NodeDefinition
+import com.nodepipes.core.domain.model.node.Node
 
 open class BadNodeConfigurationException(
     message: String,
-    nodeDefinition: NodeDefinition
-) : InvalidNodeExecutionContextException(message, nodeDefinition)
+    node: Node
+) : InvalidNodeExecutionContextException(message, node)

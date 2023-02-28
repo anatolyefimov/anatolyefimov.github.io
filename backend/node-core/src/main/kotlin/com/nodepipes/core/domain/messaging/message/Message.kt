@@ -5,13 +5,13 @@ import com.nodepipes.core.domain.messaging.message.meta.Context
 import com.nodepipes.core.domain.messaging.message.meta.Headers
 import com.nodepipes.core.domain.messaging.message.meta.Params
 import com.nodepipes.core.domain.messaging.message.payload.Payload
-import com.nodepipes.core.domain.preprocessing.NodeDefinition
+import com.nodepipes.core.domain.model.node.Node
 
 data class Message(
     val headers: Headers,
     val context: Context,
     val params: Params,
-    val source: NodeDefinition,
+    val source: Node,
     val data: Payload,
 ) {
 

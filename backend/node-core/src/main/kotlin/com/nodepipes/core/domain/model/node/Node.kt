@@ -9,5 +9,24 @@ data class Node(
     val positionType: NodePositionType,
     val nodeType: NodeType,
     val connectionSection: ConnectionNodeSection?,
-    val childrenInternalIds: List<Long>
-)
+    var children: List<Node> = listOf(),
+    var parents: List<Node> = listOf()
+) {
+    fun isTerminal() = positionType == NodePositionType.TERMINAL
+
+    fun isInitial() = positionType == NodePositionType.START
+    override fun toString(): String {
+        return "NodeDefinition(" +
+                "id=$id, " +
+                "internalId=$internalId, " +
+                "name='$name', " +
+                "positionType=$positionType, " +
+                "nodeType=$nodeType, " +
+                "connectionSection=$connectionSection, " +
+                "children=${children.map { it.internalId }}, " +
+                "parents=${parents.map { it.internalId }}" +
+        ")"
+    }
+
+
+}

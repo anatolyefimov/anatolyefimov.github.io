@@ -8,7 +8,7 @@ import com.nodepipes.core.domain.messaging.wrapper.SingleMessageCarrier
 import com.nodepipes.core.domain.messaging.wrapper.impl.ImmutableSingleCarrier
 import com.nodepipes.core.domain.model.node.NodeType
 import com.nodepipes.core.domain.model.node.connection.ConnectionNodeSection
-import com.nodepipes.core.domain.preprocessing.NodeDefinition
+import com.nodepipes.core.domain.model.node.Node
 import com.nodepipes.core.service.connection.ConnectionExecutorProvider
 import com.nodepipes.core.service.connection.ConnectionService
 import com.nodepipes.core.service.execution.NodeExecutor
@@ -24,7 +24,7 @@ class ConnectionNodeExecutor(
         return NodeType.STORAGE
     }
 
-    override fun execute(input: MessageCarrier, node: NodeDefinition): Mono<SingleMessageCarrier> {
+    override fun execute(input: MessageCarrier, node: Node): Mono<SingleMessageCarrier> {
         val connectionSection = getConnectionSettings(node)
 
         return Mono.just(input)
@@ -34,13 +34,13 @@ class ConnectionNodeExecutor(
             .flatMap { applyTransformAfter(node, it, connectionSection) }
     }
 
-    private fun getConnectionSettings(node: NodeDefinition): ConnectionNodeSection {
-        return node.node.connectionSection
+    private fun getConnectionSettings(node: Node): ConnectionNodeSection {
+        return node.connectionSection
             ?: throw BadNodeConfigurationException("connection section should not be empty", node)
     }
 
     private fun applyTransformBefore(
-        node: NodeDefinition, input: MessageCarrier, connectionSection: ConnectionNodeSection
+        node: Node, input: MessageCarrier, connectionSection: ConnectionNodeSection
     ): Mono<SingleMessageCarrier> {
         return if (connectionSection.transformationBefore == null) {
             if (input.getMessages().size == 1) {
@@ -69,7 +69,7 @@ class ConnectionNodeExecutor(
     }
 
     private fun applyTransformAfter(
-        node: NodeDefinition, input: SingleMessageCarrier, connectionSection: ConnectionNodeSection
+        node: Node, input: SingleMessageCarrier, connectionSection: ConnectionNodeSection
     ): Mono<SingleMessageCarrier> {
         return if (connectionSection.transformationAfter == null) {
             Mono.just(input)

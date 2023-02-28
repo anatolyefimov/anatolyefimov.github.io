@@ -10,13 +10,13 @@ import com.nodepipes.core.domain.messaging.wrapper.SingleMessageCarrier
 import com.nodepipes.core.domain.messaging.wrapper.impl.ImmutableSingleCarrier
 import com.nodepipes.core.domain.model.transformation.JsltCodeBlock
 import com.nodepipes.core.domain.model.transformation.JsltTransformation
-import com.nodepipes.core.domain.preprocessing.NodeDefinition
+import com.nodepipes.core.domain.model.node.Node
 import com.nodepipes.core.util.objectMapper
 import com.schibsted.spt.data.jslt.Parser
 import reactor.core.publisher.Mono
 
 class JsltTransformAction(
-    override val node: NodeDefinition,
+    override val node: Node,
     private val transformation: JsltTransformation
 ) : ManyToOneAction {
 
