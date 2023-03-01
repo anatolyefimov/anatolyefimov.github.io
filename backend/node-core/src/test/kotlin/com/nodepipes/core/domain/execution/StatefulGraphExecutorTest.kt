@@ -13,7 +13,7 @@ import org.mockito.junit.jupiter.MockitoExtension
 import reactor.core.publisher.Mono
 
 @ExtendWith(MockitoExtension::class)
-class GraphExecutorImplTest {
+class StatefulGraphExecutorTest {
 
     private val nodeProvider: NodeExecutorProvider = object : NodeExecutorProvider {
         override fun getNode(node: Node): Mono<com.nodepipes.core.service.execution.GraphExecutor> = Mono.just(

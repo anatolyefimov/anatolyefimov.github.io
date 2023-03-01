@@ -6,4 +6,10 @@ class Params private constructor(
     fun merge(params: Params): Params {
         return Params(this.data + params.data)
     }
+
+    companion object {
+        fun of(data: Map<String, Any>): Params {
+            return Params(data)
+        }
+    }
 }

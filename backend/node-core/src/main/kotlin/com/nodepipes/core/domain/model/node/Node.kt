@@ -25,8 +25,18 @@ data class Node(
                 "connectionSection=$connectionSection, " +
                 "children=${children.map { it.internalId }}, " +
                 "parents=${parents.map { it.internalId }}" +
-        ")"
+                ")"
     }
 
+    companion object {
+        val BASE = Node(
+            Long.MIN_VALUE,
+            Long.MIN_VALUE,
+            "BASE",
+            NodePositionType.INTERMEDIATE,
+            NodeType.STORAGE,
+            null
+        )
+    }
 
 }

@@ -6,9 +6,9 @@ import com.nodepipes.core.domain.exception.BadNodeConfigurationException
 import com.nodepipes.core.domain.messaging.wrapper.MessageCarrier
 import com.nodepipes.core.domain.messaging.wrapper.SingleMessageCarrier
 import com.nodepipes.core.domain.messaging.wrapper.impl.ImmutableSingleCarrier
+import com.nodepipes.core.domain.model.node.Node
 import com.nodepipes.core.domain.model.node.NodeType
 import com.nodepipes.core.domain.model.node.connection.ConnectionNodeSection
-import com.nodepipes.core.domain.model.node.Node
 import com.nodepipes.core.service.connection.ConnectionExecutorProvider
 import com.nodepipes.core.service.connection.ConnectionService
 import com.nodepipes.core.service.execution.NodeExecutor
@@ -30,6 +30,7 @@ class ConnectionNodeExecutor(
         return Mono.just(input)
             .flatMap { LogAction(node)(it) }
             .flatMap { applyTransformBefore(node, input, connectionSection) }
+            .flatMap { markNewSourceNode(it, node) }
             .flatMap { applyConnectionAction(it, connectionSection) }
             .flatMap { applyTransformAfter(node, it, connectionSection) }
     }

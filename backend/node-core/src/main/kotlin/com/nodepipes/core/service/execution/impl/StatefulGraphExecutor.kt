@@ -4,21 +4,21 @@ import com.nodepipes.core.domain.messaging.wrapper.MessageCarrier
 import com.nodepipes.core.domain.messaging.wrapper.SingleMessageCarrier
 import com.nodepipes.core.domain.model.node.Graph
 import com.nodepipes.core.domain.model.node.Node
-import com.nodepipes.core.service.execution.NodeExecutorProvider
 import com.nodepipes.core.service.execution.GraphExecutor
+import com.nodepipes.core.service.execution.NodeExecutorProvider
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import reactor.core.scheduler.Schedulers
 import java.util.concurrent.ConcurrentHashMap
 
-class GraphExecutorImpl(
-    private val nodeProvider: NodeExecutorProvider, private val definition: Graph
+class StatefulGraphExecutor(
+    private val nodeProvider: NodeExecutorProvider, private val graph: Graph
 ) : GraphExecutor {
 
     private val internalIdToOutput: ConcurrentHashMap<Long, Mono<SingleMessageCarrier>> = ConcurrentHashMap()
 
     override fun execute(input: MessageCarrier): Mono<SingleMessageCarrier> {
-        return executeGraph(input, definition.terminalNode)
+        return executeGraph(input, graph.terminalNode)
     }
 
     private fun executeGraph(input: MessageCarrier, definition: Node): Mono<SingleMessageCarrier> {
