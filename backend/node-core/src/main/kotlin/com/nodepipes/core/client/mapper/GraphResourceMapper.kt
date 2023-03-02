@@ -86,7 +86,7 @@ class GraphResourceMapper {
                 ConnectionNodeSection(
                     connectionSection.interactionMode,
                     connectionSection.transformationBefore?.let { mapTransformation(it) },
-                    connectionSection.transformationBefore?.let { mapTransformation(it) },
+                    connectionSection.transformationAfter?.let { mapTransformation(it) },
                     connectionSection.connectionId
                 )
             }

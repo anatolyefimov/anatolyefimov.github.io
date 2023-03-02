@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.node.NullNode
 import com.nodepipes.core.domain.exception.InvalidNodeExecutionContextException
 import com.nodepipes.core.domain.action.ManyToOneAction
 import com.nodepipes.core.domain.messaging.message.Message
+import com.nodepipes.core.domain.messaging.message.payload.Payload
 import com.nodepipes.core.domain.messaging.wrapper.MessageCarrier
 import com.nodepipes.core.domain.messaging.wrapper.SingleMessageCarrier
 import com.nodepipes.core.domain.messaging.wrapper.impl.ImmutableSingleCarrier
@@ -33,11 +34,13 @@ class JsltTransformAction(
                     params = transform(transformation.params, vars) {
                         input.getMessages().map { it.params }.reduceRight { a, b -> a.merge(b) }
                     },
-                    data = transform(transformation.payload, vars) {
-                        throw InvalidNodeExecutionContextException(
-                            "Transformation with empty body section could not be applied", node
-                        )
-                    },
+                    data = Payload.JsonPayload(
+                        transform(transformation.payload, vars) {
+                            throw InvalidNodeExecutionContextException(
+                                "Transformation with empty body section could not be applied", node
+                            )
+                        }
+                    ),
                     source = node
                 )
             )
@@ -62,10 +65,10 @@ class JsltTransformAction(
     private fun constructVars(input: MessageCarrier): Map<String, JsonNode> {
         val mainVars = input.getMessages().map {
             mutableMapOf<String, JsonNode>(
-                "${it.source}_headers" to objectMapper.valueToTree(it.headers),
-                "${it.source}_params" to objectMapper.valueToTree(it.params),
-                "${it.source}_context" to objectMapper.valueToTree(it.context),
-                "${it.source}_payload" to objectMapper.valueToTree(it.getPayload()),
+                "${it.source.name}_headers" to objectMapper.valueToTree(it.headers),
+                "${it.source.name}_params" to objectMapper.valueToTree(it.params),
+                "${it.source.name}_context" to objectMapper.valueToTree(it.context),
+                "${it.source.name}_payload" to objectMapper.valueToTree(it.getPayload()),
             )
         }.reduceRight { map, acc -> acc.apply { putAll(map) } }
 

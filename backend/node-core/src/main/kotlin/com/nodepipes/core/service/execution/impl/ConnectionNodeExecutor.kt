@@ -26,13 +26,13 @@ class ConnectionNodeExecutor(
 
     override fun execute(input: MessageCarrier, node: Node): Mono<SingleMessageCarrier> {
         return node.connectionSection?.let { connectionSection ->
-            Mono.just(input)
-                .flatMap { LogAction(node)(it) }
+            LogAction(node)(input)
                 .flatMap { applyTransformBefore(node, input, connectionSection) }
-                .flatMap { markNewSourceNode(it, node) }
                 .flatMap { applyConnectionAction(it, connectionSection) }
                 .flatMap { applyTransformAfter(node, it, connectionSection) }
-        } ?: passMessage(input, node)
+        } ?: LogAction(node)(input)
+                .flatMap { passMessage(input, node) }
+                .flatMap { markNewSourceNode(it, node) }
     }
 
     private fun applyTransformBefore(
