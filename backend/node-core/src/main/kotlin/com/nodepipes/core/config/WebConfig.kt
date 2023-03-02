@@ -10,7 +10,7 @@ import org.springframework.web.reactive.function.server.ServerResponse
 class WebConfig {
 
     @Bean
-    fun router(router: Router): RouterFunction<ServerResponse> {
+    fun routerFunction(router: Router): RouterFunction<ServerResponse> {
         return router.graphInvocation()
     }
 

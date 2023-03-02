@@ -25,30 +25,21 @@ class ConnectionNodeExecutor(
     }
 
     override fun execute(input: MessageCarrier, node: Node): Mono<SingleMessageCarrier> {
-        val connectionSection = getConnectionSettings(node)
-
-        return Mono.just(input)
-            .flatMap { LogAction(node)(it) }
-            .flatMap { applyTransformBefore(node, input, connectionSection) }
-            .flatMap { markNewSourceNode(it, node) }
-            .flatMap { applyConnectionAction(it, connectionSection) }
-            .flatMap { applyTransformAfter(node, it, connectionSection) }
-    }
-
-    private fun getConnectionSettings(node: Node): ConnectionNodeSection {
-        return node.connectionSection
-            ?: throw BadNodeConfigurationException("connection section should not be empty", node)
+        return node.connectionSection?.let { connectionSection ->
+            Mono.just(input)
+                .flatMap { LogAction(node)(it) }
+                .flatMap { applyTransformBefore(node, input, connectionSection) }
+                .flatMap { markNewSourceNode(it, node) }
+                .flatMap { applyConnectionAction(it, connectionSection) }
+                .flatMap { applyTransformAfter(node, it, connectionSection) }
+        } ?: passMessage(input, node)
     }
 
     private fun applyTransformBefore(
         node: Node, input: MessageCarrier, connectionSection: ConnectionNodeSection
     ): Mono<SingleMessageCarrier> {
         return if (connectionSection.transformationBefore == null) {
-            if (input.getMessages().size == 1) {
-                Mono.just(ImmutableSingleCarrier(input.getMessages().single()))
-            } else {
-                throw BadNodeConfigurationException("Before Transformation should be defined", node)
-            }
+            passMessage(input, node)
         } else {
             JsltTransformAction(node, connectionSection.transformationBefore)(input)
         }
@@ -76,6 +67,14 @@ class ConnectionNodeExecutor(
             Mono.just(input)
         } else {
             JsltTransformAction(node, connectionSection.transformationAfter)(input)
+        }
+    }
+
+    private fun passMessage(input: MessageCarrier, node: Node): Mono<SingleMessageCarrier> {
+        return if (input.getMessages().size == 1) {
+            Mono.just(ImmutableSingleCarrier(input.getMessages().single()))
+        } else {
+            throw BadNodeConfigurationException("Before Transformation should be defined", node)
         }
     }
 

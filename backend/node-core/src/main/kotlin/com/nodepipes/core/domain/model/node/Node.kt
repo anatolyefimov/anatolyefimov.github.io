@@ -16,7 +16,7 @@ data class Node(
 
     fun isInitial() = positionType == NodePositionType.START
     override fun toString(): String {
-        return "NodeDefinition(" +
+        return "Node(" +
                 "id=$id, " +
                 "internalId=$internalId, " +
                 "name='$name', " +

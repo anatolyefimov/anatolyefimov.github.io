@@ -7,6 +7,6 @@ open class InvalidNodeExecutionContextException(message: String, node: Node) :
 
 
     companion object {
-        fun getMessage(message: String, node: Node) = "$message, nodeName: ${node.node.name}"
+        fun getMessage(message: String, node: Node) = "$message, nodeName: ${node.name}"
     }
 }

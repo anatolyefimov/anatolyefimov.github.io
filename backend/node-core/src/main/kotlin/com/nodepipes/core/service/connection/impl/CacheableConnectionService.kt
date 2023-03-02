@@ -7,12 +7,13 @@ import org.springframework.stereotype.Component
 import reactor.core.publisher.Mono
 
 @Component
-class ConnectionServiceImpl(
+class CacheableConnectionService(
     private val client: ConnectionClient
 ) : ConnectionService {
 
+    //TODO: cacheable
     override fun getConnectionById(id: Long): Mono<Connection> {
-        TODO("Not yet implemented")
+        return client.getById(id)
     }
 
 }

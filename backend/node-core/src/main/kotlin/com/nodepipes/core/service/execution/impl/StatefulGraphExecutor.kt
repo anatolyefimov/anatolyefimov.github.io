@@ -21,22 +21,22 @@ class StatefulGraphExecutor(
         return executeGraph(input, graph.terminalNode)
     }
 
-    private fun executeGraph(input: MessageCarrier, definition: Node): Mono<SingleMessageCarrier> {
-        return if (definition.isInitial()) {
-            getOutput(definition.internalId) {
-                nodeProvider.getNode(definition).flatMap { it.execute(input, definition) }
+    private fun executeGraph(input: MessageCarrier, node: Node): Mono<SingleMessageCarrier> {
+        return if (node.isInitial()) {
+            getOutput(node.internalId) {
+                nodeProvider.getNode(node).flatMap { it.execute(input, node) }
             }
-        } else if (definition.parents.size == 1) {
-            nodeProvider.getNode(definition).flatMap { current ->
-                getOutput(definition.parents.single().internalId) {
-                    executeGraph(input, definition.parents.single())
-                }.flatMap { current.execute(it, definition) }
+        } else if (node.parents.size == 1) {
+            nodeProvider.getNode(node).flatMap { current ->
+                getOutput(node.parents.single().internalId) {
+                    executeGraph(input, node.parents.single())
+                }.flatMap { current.execute(it, node) }
             }
         } else {
-            Flux.fromArray(definition.parents.toTypedArray()).flatMap { node ->
+            Flux.fromArray(node.parents.toTypedArray()).flatMap { node ->
                 getOutput(node.internalId) { executeGraph(input, node) }
             }.map { it as MessageCarrier }.reduce { in1, in2 -> in1.combine(in2) }.flatMap {
-                nodeProvider.getNode(definition).flatMap { exec -> exec.execute(it, definition) }
+                nodeProvider.getNode(node).flatMap { exec -> exec.execute(it, node) }
             }
         }
     }
