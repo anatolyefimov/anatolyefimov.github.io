@@ -33,8 +33,8 @@ class StatefulGraphExecutor(
                 }.flatMap { current.execute(it, node) }
             }
         } else {
-            Flux.fromArray(node.parents.toTypedArray()).flatMap { node ->
-                getOutput(node.internalId) { executeGraph(input, node) }
+            Flux.fromArray(node.parents.toTypedArray()).flatMap { parentNode ->
+                getOutput(parentNode.internalId) { executeGraph(input, parentNode) }
             }.map { it as MessageCarrier }.reduce { in1, in2 -> in1.combine(in2) }.flatMap {
                 nodeProvider.getNode(node).flatMap { exec -> exec.execute(it, node) }
             }
