@@ -1,5 +1,6 @@
 package com.nodepipes.core.service.execution.impl
 
+import com.nodepipes.core.domain.action.impl.ConnectionAction
 import com.nodepipes.core.domain.action.impl.JsltTransformAction
 import com.nodepipes.core.domain.action.impl.LogAction
 import com.nodepipes.core.domain.exception.BadNodeConfigurationException

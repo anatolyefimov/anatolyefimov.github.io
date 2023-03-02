@@ -43,7 +43,9 @@ class JsltTransformAction(
                     ),
                     source = node
                 )
-            )
+            ).apply {
+                print(this.getMessage().getPayload())
+            }
         }
     }
 
@@ -68,7 +70,7 @@ class JsltTransformAction(
                 "${it.source.name}_headers" to objectMapper.valueToTree(it.headers),
                 "${it.source.name}_params" to objectMapper.valueToTree(it.params),
                 "${it.source.name}_context" to objectMapper.valueToTree(it.context),
-                "${it.source.name}_payload" to objectMapper.valueToTree(it.getPayload()),
+                "${it.source.name}_payload" to objectMapper.valueToTree(it.getPayload<Payload.JsonPayload>().data),
             )
         }.reduceRight { map, acc -> acc.apply { putAll(map) } }
 
@@ -78,7 +80,7 @@ class JsltTransformAction(
                 this["headers"] = objectMapper.valueToTree(message.headers)
                 this["params"] = objectMapper.valueToTree(message.params)
                 this["context"] = objectMapper.valueToTree(message.context)
-                this["payload"] = objectMapper.valueToTree(message.getPayload())
+                this["payload"] = objectMapper.valueToTree(message.getPayload<Payload.JsonPayload>().data)
             }
         }
 
