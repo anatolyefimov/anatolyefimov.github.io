@@ -110,4 +110,5 @@ jobs:
             docker login --username ${{ secrets.DOCKERHUB_USERNAME }} --password ${{ secrets.DOCKERHUB_TOKEN }}
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/node-conf
             docker stop node-conf
+            docker container rm node-conf
             docker run --name node-conf -d -p 8080:8080 germikgerman/node-conf
