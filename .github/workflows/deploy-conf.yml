@@ -108,4 +108,6 @@ jobs:
           port: 22
           script: |
             docker login --username ${{ secrets.DOCKERHUB_USERNAME }} --password ${{ secrets.DOCKERHUB_TOKEN }}
-            docker run -d -p 8082:8080 germikgerman/node-conf
+            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/node-conf
+            docker stop node-conf
+            docker run --name node-conf -d -p 8080:8080 germikgerman/node-conf
