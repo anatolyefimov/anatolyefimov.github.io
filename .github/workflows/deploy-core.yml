@@ -111,4 +111,4 @@ jobs:
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/node-core
             docker stop node-core
             docker container rm node-core
-            docker run --name node-core -d -p 8080:8080 germikgerman/node-core
+            docker run --name node-core -d -p 8081:8080 germikgerman/node-core
