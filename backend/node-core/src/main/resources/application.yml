@@ -1,2 +1,6 @@
 server:
   port: 8081
+
+external-services:
+  node-conf:
+    url: ${CONF_APP_URL:localhost:8080}
