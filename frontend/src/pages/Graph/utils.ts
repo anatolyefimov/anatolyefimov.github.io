@@ -18,33 +18,52 @@ export function getEdges(graph: GraphResource): Edge[] {
 	return edges;
 }
 
+type NodeByInternalId = Record<
+	NonNullable<NodeResource['internalId']>,
+	NodeResource
+>;
+
+const getNodeByInternalIdData = (
+	graphNodes: NodeResource[]
+): NodeByInternalId =>
+	graphNodes.reduce<NodeByInternalId>((acc, node) => {
+		acc[node.internalId || 0] = node;
+
+		return acc;
+	}, {});
+
+const getStartNode = (graphNodes: NodeResource[]): NodeResource | null => {
+	for (const node of graphNodes) {
+		if (node.positionType === 'START') {
+			return node;
+		}
+	}
+
+	return null;
+};
+
 export function getNodes(graph: GraphResource): Node[] {
 	const resultNodes: Node[] = [];
 
 	const graphNodes = graph.nodes || [];
 	const levelByNodeId: Record<number, number> = {};
 
-	type NodeByInternalId = Record<
-		NonNullable<NodeResource['internalId']>,
-		NodeResource
-	>;
 	const nodeByInternalId: NodeByInternalId =
-		graphNodes.reduce<NodeByInternalId>((acc, node) => {
-			acc[node.internalId || 0] = node;
+		getNodeByInternalIdData(graphNodes);
 
-			return acc;
-		}, {});
-
-	let startNode: NodeResource | null = null;
-
-	for (const node of graphNodes) {
-		if (node.positionType === 'START') {
-			startNode = node;
-		}
-	}
+	const startNode = getStartNode(graphNodes);
 
 	if (!startNode) {
 		return resultNodes;
+	}
+
+	type InCount = Record<NonNullable<NodeResource['internalId']>, number>;
+	const inCount: InCount = {};
+
+	for (const node of graphNodes) {
+		for (const childId of node.childrenInternalIds || []) {
+			inCount[childId] = (inCount[childId] || 0) + 1;
+		}
 	}
 
 	const bfsQueue: NodeResource['internalId'][] = [startNode.internalId];
@@ -55,6 +74,7 @@ export function getNodes(graph: GraphResource): Node[] {
 		NonNullable<NodeResource['internalId']>[]
 	> = {};
 	nodeIdsByLevel[0] = [startNode.internalId || 0];
+
 	let maxLevelCount = 1;
 
 	while (bfsQueue.length !== 0) {
@@ -62,7 +82,9 @@ export function getNodes(graph: GraphResource): Node[] {
 		const currentNode = nodeByInternalId[currentNodeId || 0];
 
 		for (const nextNodeId of currentNode.childrenInternalIds || []) {
-			if (!(nextNodeId in levelByNodeId)) {
+			--inCount[nextNodeId];
+
+			if (!(nextNodeId in levelByNodeId) && inCount[nextNodeId] === 0) {
 				bfsQueue.push(nextNodeId);
 				levelByNodeId[nextNodeId] = levelByNodeId[currentNodeId || 0] + 1;
 
@@ -80,8 +102,8 @@ export function getNodes(graph: GraphResource): Node[] {
 
 	const nodeWidth = 100;
 	const nodeHeight = 100;
-	const levelsGap = 200;
-	const nodeGap = 50;
+	const levelsGap = 150;
+	const nodeGap = 200;
 	const maxLevelHeight =
 		maxLevelCount * nodeHeight + (maxLevelCount + 1) * nodeGap;
 
